@@ -36,21 +36,18 @@
 		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
 	}
 	.tbl-shot th, .tbl-shot td { text-align: center; vertical-align: middle; }
-	.tbl-shot input[type="number"], .tbl-shot input[type="text"] { width: 110px; text-align: right; }
-	.tbl-irradiation th, .tbl-irradiation td { vertical-align: middle; }
+	.tbl-shot input[type="number"] {
+		width: 110px; text-align: right; background: #fff; border: 1px solid #ccc;
+		border-radius: 6px; height: 36px; padding: 4px 8px; font-size: 1.4rem;
+	}
 	.tbl-irradiation .device-name { font-weight: normal; color: #666; font-size: 1.2rem; margin-left: 8px; }
 	.tbl-irradiation .pattern-select { margin-top: 4px; }
 	.tbl-irradiation .pattern-select select { min-width: 120px; font-size: 1.1rem; height: 32px; padding: 4px 24px 4px 8px; }
 	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
 	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
 	.tbl-irradiation input[type="text"] { width: 60px; text-align: right; }
-	.counter-btn {
-		display: inline-block; width: 34px; height: 30px; line-height: 30px; text-align: center;
-		background: #8ea8e8; color: #fff; border-radius: 4px; cursor: pointer; user-select: none; font-size: 1.4rem;
-	}
-	table { width: 100%; border-collapse: collapse; background: #fff; }
-	th, td { border: 1px solid #e0e0e0; padding: 8px; font-size: 1.3rem; }
-	th { background: #f5f5f5; }
+	/* 大分類・中分類の見出しは行が高いので上寄せにする（本番も同様に見えるよう調整） */
+	.tbl-datsumo tbody td.group-label { vertical-align: top; padding-top: 14px; }
 </style>
 </head>
 <body>
@@ -201,8 +198,10 @@ function buildTable(partKey, deviceCode) {
 	html += '</div>';
 	html += '<table class="tbl-datsumo tbl-irradiation"><thead><tr>';
 	html += '<th colspan="3">照射部位</th>';
-	html += splendor ? '<th>アレキ</th><th>ヤグ</th><th>パルス幅</th>' : '<th>J</th><th>P</th>';
-	html += '<th>照射後肌状態</th></tr></thead><tbody>';
+	html += splendor
+		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
+		: '<th class="counter">J</th><th class="counter">P</th>';
+	html += '<th class="aftertreatment">照射後肌状態</th></tr></thead><tbody>';
 
 	// うなじは体幹うらに連動させるため、先に対象をまとめる
 	var napeIds = [];
@@ -216,8 +215,8 @@ function buildTable(partKey, deviceCode) {
 			var individual = INDIVIDUAL.indexOf(region) >= 0;
 			html += '<tr>';
 			if (idx === 0) {
-				html += '<td rowspan="' + g.regions.length + '">' + g.type + '</td>';
-				html += '<td rowspan="' + g.regions.length + '">' + g.sub;
+				html += '<td class="group-label" rowspan="' + g.regions.length + '">' + g.type + '</td>';
+				html += '<td class="group-label" rowspan="' + g.regions.length + '">' + g.sub;
 				if (splendor) {
 					var targets = g.regions.filter(function (r) { return INDIVIDUAL.indexOf(r) < 0; })
 						.map(function (r) { return idPrefix + r; });
@@ -238,9 +237,9 @@ function buildTable(partKey, deviceCode) {
 			if (splendor) { html += counterCell(rid + '_yag', 0.5); }
 			html += counterCell(rid + '_p', splendor ? 5 : 1);
 
-			html += '<td><span class="hr-select"><select style="min-width:150px">';
+			html += '<td><div class="treatmentselectbtn"><select>';
 			SKIN.forEach(function (s) { html += '<option>' + s + '</option>'; });
-			html += '</select></span></td></tr>';
+			html += '</select></div></td></tr>';
 		});
 	});
 	html += '</tbody></table></div></div>';
@@ -256,10 +255,11 @@ function patternSelect(targets, selectedIndex) {
 }
 
 function counterCell(id, step) {
-	return '<td style="white-space:nowrap; text-align:center">'
-		+ '<span class="counter-btn" onclick="stepValue(\'' + id + '\',' + step + ')">＋</span> '
-		+ '<input type="text" id="' + id + '" data-step="' + step + '"> '
-		+ '<span class="counter-btn" onclick="stepValue(\'' + id + '\',' + (-step) + ')">－</span></td>';
+	return '<td class="counter"><div class="treatmentcounter">'
+		+ '<li><input type="button" value="＋" class="plus" onclick="stepValue(\'' + id + '\',' + step + ')"></li>'
+		+ '<li><input type="text" id="' + id + '" data-step="' + step + '"></li>'
+		+ '<li><input type="button" value="－" class="minus" onclick="stepValue(\'' + id + '\',' + (-step) + ')"></li>'
+		+ '</div></td>';
 }
 
 function stepValue(id, delta) {
@@ -301,16 +301,19 @@ $(function () {
 	renderPart('FACE', '');
 
 	$('#deviceWholeBody').on('change', function () {
-		if ($(this).val() && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
-			$(this).val($(this).data('previous') || '');
+		var previous = $(this).data('previous') || '';
+		// 最初に選ぶときは確認しない。すでに選んでいる機器を変えるときだけ確認する
+		if (previous && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
+			$(this).val(previous);
 			return;
 		}
 		$(this).data('previous', $(this).val());
 		renderPart('WHOLE', $(this).val());
 	});
 	$('#deviceFace').on('change', function () {
-		if ($(this).val() && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
-			$(this).val($(this).data('previous') || '');
+		var previous = $(this).data('previous') || '';
+		if (previous && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
+			$(this).val(previous);
 			return;
 		}
 		$(this).data('previous', $(this).val());
