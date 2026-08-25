@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>脱毛施術記録 デモ画面</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/origin/layout.css">
+<link rel="stylesheet" href="css/origin/mr.css">
+<link rel="stylesheet" href="css/origin/mr-entry.css">
+<script src="js/jquery.min.js"></script>
+<style>
+	/* デモ用の枠 */
+	.demo-note {
+		background: #fff6f7; border: 1px solid #fc818f; border-radius: 6px;
+		margin: 12px; padding: 12px 16px; font-size: 1.3rem; line-height: 1.8; color: #444;
+	}
+	.demo-note b { color: #d5405a; }
+	.demo-head {
+		background: #fff; border-bottom: 1px solid #e3e3e3;
+		padding: 12px 16px; font-size: 1.6rem; font-weight: bold; color: #333;
+	}
+	.demo-head span { font-size: 1.2rem; font-weight: normal; color: #888; margin-left: 12px; }
+
+	/* 本番と同じ見え方にするための補正（共通CSSが input/select を無地にしているため） */
+	.hr-select { position: relative; display: inline-block; }
+	.hr-select select {
+		background-color: #fff; border: 1px solid #a8a8a8; border-radius: 8px; box-sizing: border-box;
+		font-size: 1.4rem; height: 40px; line-height: 1.4; padding: 6px 30px 6px 10px; min-width: 180px;
+		-webkit-appearance: none; appearance: none;
+	}
+	.hr-select:after {
+		content: ''; position: absolute; right: 12px; top: 15px; width: 7px; height: 7px;
+		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
+	}
+	.tbl-shot th, .tbl-shot td { text-align: center; vertical-align: middle; }
+	.tbl-shot input[type="number"], .tbl-shot input[type="text"] { width: 110px; text-align: right; }
+	.tbl-irradiation th, .tbl-irradiation td { vertical-align: middle; }
+	.tbl-irradiation .device-name { font-weight: normal; color: #666; font-size: 1.2rem; margin-left: 8px; }
+	.tbl-irradiation .pattern-select { margin-top: 4px; }
+	.tbl-irradiation .pattern-select select { min-width: 120px; font-size: 1.1rem; height: 32px; padding: 4px 24px 4px 8px; }
+	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
+	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
+	.tbl-irradiation input[type="text"] { width: 60px; text-align: right; }
+	.counter-btn {
+		display: inline-block; width: 34px; height: 30px; line-height: 30px; text-align: center;
+		background: #8ea8e8; color: #fff; border-radius: 4px; cursor: pointer; user-select: none; font-size: 1.4rem;
+	}
+	table { width: 100%; border-collapse: collapse; background: #fff; }
+	th, td { border: 1px solid #e0e0e0; padding: 8px; font-size: 1.3rem; }
+	th { background: #f5f5f5; }
+</style>
+</head>
+<body>
+
+<div class="demo-head">
+	脱毛施術記録（Ns）デモ画面
+	<span>デモ 花子 様 ／ 銀座院 ※これは操作確認用の見本です。入力しても保存されません</span>
+</div>
+
+<div class="demo-note">
+	<b>確認していただきたいこと</b><br>
+	① 「使用機器」を選ぶと、下の照射記録の表に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
+	② スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
+	③ ＋−ボタンの刻み（スプレンダーのJは0.5刻み）と、iPadでの押しやすさ・横幅をご確認ください。
+</div>
+
+<div class="colm-main-navsty2">
+	<div class="pnl-entry">
+		<div class="pnl-entry-hdr">診療記録</div>
+		<div class="pnl-entry-blk">
+
+			<!-- ショット数 -->
+			<div class="mr-entry">
+				<div class="form">
+					<div class="transfer-ttl">ショット数</div>
+					<table class="tbl-counter tbl-shot">
+						<thead>
+							<tr>
+								<th rowspan="2" style="width:12%">部位</th>
+								<th rowspan="2" style="width:24%">使用機器</th>
+								<th rowspan="2" style="width:16%">ショット数</th>
+								<th colspan="2">ハンドピース総ショット数</th>
+							</tr>
+							<tr>
+								<th style="width:24%">当日開始時</th>
+								<th style="width:24%">当日終了時</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>全身</td>
+								<td>
+									<span class="hr-select">
+										<select id="deviceWholeBody">
+											<option value="">選択してください</option>
+											<option value="MEDIOSTAR">メディオスター①</option>
+											<option value="SPLENDOR">スプレンダー①</option>
+										</select>
+									</span>
+								</td>
+								<td><input type="number" min="0"></td>
+								<td><input type="number" min="0"></td>
+								<td><input type="number" min="0"></td>
+							</tr>
+							<tr>
+								<td>顔</td>
+								<td>
+									<span class="hr-select">
+										<select id="deviceFace">
+											<option value="">選択してください</option>
+											<option value="ALEX">アレキ①</option>
+											<option value="HYBRID">ハイブリッド①</option>
+										</select>
+									</span>
+								</td>
+								<td><input type="number" min="0"></td>
+								<td><input type="number" min="0"></td>
+								<td><input type="number" min="0"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- 照射記録（JSで組み立て） -->
+			<div id="irradiationArea"></div>
+
+			<div class="mr-entry">
+				<div class="form">
+					<div class="transfer-ttl">記録</div>
+					<textarea rows="4" style="width:100%; border:1px solid #ccc; border-radius:6px; padding:8px;"></textarea>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+// ===== 機種ごとの初期値（本番のマスタと同じ値） =====
+var DEFAULTS = {
+	MEDIOSTAR: {
+		'デコルテ':[10,1],'わき':[8,1],'バスト':[10,1],'乳輪':[10,1],'腹部':[10,1],'下腹部':[10,1],
+		'肩':[10,1],'背中':[10,1],'腰':[10,1],'ヒップ':[10,1],
+		'ひじ上':[10,1],'ひじ下':[10,1],'手':[10,1],'指':[10,1],
+		'もも表':[9,1],'もも裏':[9,1],'ひざ表':[9,1],'ひざ裏':[9,1],'すね表':[9,1],'すね裏':[9,1],'足指':[9,1],
+		'V':[4,1],'I':[6,1],'O':[6,1],'うなじ':[10,1]
+	},
+	ALEX:   {'ひたい':[11,1],'眉間':[11,1],'ほほ':[11,1],'鼻':[11,1],'鼻下':[11,1],'あご':[11,1],'あご下':[11,0],'首':[11,0]},
+	HYBRID: {'ひたい':[8,4],'眉間':[8,4],'ほほ':[8,4],'鼻':[8,4],'鼻下':[8,4],'あご':[8,4],'あご下':[8,0],'首':[8,0]}
+};
+
+// スプレンダーの参照回数（アレキ／ヤグ／パルス幅）
+var PATTERNS = [
+	['通常1回目',5.5,5,20],['通常2回目',5.5,5.5,20],['通常3回目',5.5,6,20],['通常4回目',5.5,6.5,20],
+	['通常5回目',5.5,7,20],['通常6回目',5.5,7.5,20],['通常7回目',5.5,7.5,15],['通常8回目',5.5,7.5,10],
+	['濃い1回目',2,6,30],['濃い2回目',2,6.5,30],['濃い3回目',2,7,30],['濃い4回目',2,7.5,30],
+	['濃い5回目',2.5,8,30],['濃い6回目',2.5,8.5,30],['濃い7回目',2.5,9,30],['濃い8回目',2.5,9.5,30]
+];
+var PATTERN_NORMAL_8 = 7;   // 通常8回目
+var PATTERN_DARK_8 = 15;    // 濃い8回目
+var INDIVIDUAL = ['乳輪','V','I','O'];  // 参照回数を部位ごとに選ぶ
+
+// 部位の構成（大分類 → 中分類 → 部位）
+var BODY = {
+	WHOLE: { label:'全身', groups:[
+		{ type:'全身', sub:'体幹おもて', regions:['デコルテ','わき','バスト','乳輪','腹部','下腹部'] },
+		{ type:'全身', sub:'体幹うら', regions:['肩','背中','腰','ヒップ'] },
+		{ type:'全身', sub:'腕', regions:['ひじ上','ひじ下','手','指'] },
+		{ type:'全身', sub:'足', regions:['もも表','もも裏','ひざ表','ひざ裏','すね表','すね裏','足指'] },
+		{ type:'VIO', sub:'VIO', regions:['V','I','O'] },
+		{ type:'うなじ', sub:'うなじ', regions:['うなじ'] }
+	]},
+	FACE: { label:'顔', groups:[
+		{ type:'顔全体', sub:'顔', regions:['ひたい','眉間','ほほ','鼻','鼻下','あご','あご下','首'] }
+	]}
+};
+
+var SKIN = ['NP','軽度発赤','毛の周囲のみ発赤','発赤-要診察','水泡形成-要診察','その他'];
+
+function trimZero(v) {
+	if (v === '' || v === null || v === undefined) { return ''; }
+	var n = parseFloat(v);
+	return isNaN(n) ? v : String(n);
+}
+
+function deviceLabel(code) {
+	return { MEDIOSTAR:'メディオスター①', SPLENDOR:'スプレンダー①', ALEX:'アレキ①', HYBRID:'ハイブリッド①' }[code] || '';
+}
+
+function buildTable(partKey, deviceCode) {
+	var part = BODY[partKey];
+	var splendor = (deviceCode === 'SPLENDOR');
+	var idPrefix = partKey + '_';
+	var html = '<div class="mr-entry"><div class="form">';
+	html += '<div class="transfer-ttl">照射記録（' + part.label + '）';
+	if (deviceCode) { html += '<span class="device-name">使用機器：' + deviceLabel(deviceCode) + '</span>'; }
+	html += '</div>';
+	html += '<table class="tbl-datsumo tbl-irradiation"><thead><tr>';
+	html += '<th colspan="3">照射部位</th>';
+	html += splendor ? '<th>アレキ</th><th>ヤグ</th><th>パルス幅</th>' : '<th>J</th><th>P</th>';
+	html += '<th>照射後肌状態</th></tr></thead><tbody>';
+
+	// うなじは体幹うらに連動させるため、先に対象をまとめる
+	var napeIds = [];
+	part.groups.forEach(function (g) {
+		if (g.sub === 'うなじ') { g.regions.forEach(function (r) { napeIds.push(idPrefix + r); }); }
+	});
+
+	part.groups.forEach(function (g) {
+		g.regions.forEach(function (region, idx) {
+			var rid = idPrefix + region;
+			var individual = INDIVIDUAL.indexOf(region) >= 0;
+			html += '<tr>';
+			if (idx === 0) {
+				html += '<td rowspan="' + g.regions.length + '">' + g.type + '</td>';
+				html += '<td rowspan="' + g.regions.length + '">' + g.sub;
+				if (splendor) {
+					var targets = g.regions.filter(function (r) { return INDIVIDUAL.indexOf(r) < 0; })
+						.map(function (r) { return idPrefix + r; });
+					if (g.sub === '体幹うら') { targets = targets.concat(napeIds); }
+					if (g.sub === 'うなじ') {
+						html += '<div class="linked">体幹うらと連動</div>';
+					} else if (targets.length) {
+						html += patternSelect(targets, PATTERN_NORMAL_8);
+					}
+				}
+				html += '</td>';
+			}
+			html += '<td>' + region;
+			if (splendor && individual) { html += patternSelect([rid], PATTERN_DARK_8); }
+			html += '</td>';
+
+			html += counterCell(rid + '_j', splendor ? 0.5 : 1);
+			if (splendor) { html += counterCell(rid + '_yag', 0.5); }
+			html += counterCell(rid + '_p', splendor ? 5 : 1);
+
+			html += '<td><span class="hr-select"><select style="min-width:150px">';
+			SKIN.forEach(function (s) { html += '<option>' + s + '</option>'; });
+			html += '</select></span></td></tr>';
+		});
+	});
+	html += '</tbody></table></div></div>';
+	return html;
+}
+
+function patternSelect(targets, selectedIndex) {
+	var h = '<div class="pattern-select hr-select"><select class="js-pattern" data-targets="' + targets.join(',') + '">';
+	PATTERNS.forEach(function (p, i) {
+		h += '<option value="' + i + '"' + (i === selectedIndex ? ' selected' : '') + '>' + p[0] + '</option>';
+	});
+	return h + '</select></div>';
+}
+
+function counterCell(id, step) {
+	return '<td style="white-space:nowrap; text-align:center">'
+		+ '<span class="counter-btn" onclick="stepValue(\'' + id + '\',' + step + ')">＋</span> '
+		+ '<input type="text" id="' + id + '" data-step="' + step + '"> '
+		+ '<span class="counter-btn" onclick="stepValue(\'' + id + '\',' + (-step) + ')">－</span></td>';
+}
+
+function stepValue(id, delta) {
+	var el = document.getElementById(id);
+	var current = parseFloat(el.value);
+	if (isNaN(current)) { current = 0; }
+	var next = current + delta;
+	if (next < 0) { next = current; }
+	el.value = trimZero(next.toFixed(1));
+}
+
+function applyPattern(select) {
+	var p = PATTERNS[parseInt(select.value, 10)];
+	if (!p) { return; }
+	String($(select).data('targets')).split(',').forEach(function (rid) {
+		$('#' + rid + '_j').val(trimZero(p[1]));
+		$('#' + rid + '_yag').val(trimZero(p[2]));
+		$('#' + rid + '_p').val(trimZero(p[3]));
+	});
+}
+
+function renderPart(partKey, deviceCode) {
+	$('#area_' + partKey).html(buildTable(partKey, deviceCode));
+	if (!deviceCode) { return; }
+	if (deviceCode === 'SPLENDOR') {
+		$('#area_' + partKey + ' .js-pattern').each(function () { applyPattern(this); });
+	} else {
+		var table = DEFAULTS[deviceCode] || {};
+		Object.keys(table).forEach(function (region) {
+			$('#' + partKey + '_' + region + '_j').val(trimZero(table[region][0]));
+			$('#' + partKey + '_' + region + '_p').val(trimZero(table[region][1]));
+		});
+	}
+}
+
+$(function () {
+	$('#irradiationArea').html('<div id="area_WHOLE"></div><div id="area_FACE"></div>');
+	renderPart('WHOLE', '');
+	renderPart('FACE', '');
+
+	$('#deviceWholeBody').on('change', function () {
+		if ($(this).val() && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
+			$(this).val($(this).data('previous') || '');
+			return;
+		}
+		$(this).data('previous', $(this).val());
+		renderPart('WHOLE', $(this).val());
+	});
+	$('#deviceFace').on('change', function () {
+		if ($(this).val() && !confirm('使用機器を変えると、この部位の照射記録の値が新しい機器の初期値に入れ替わります。よろしいですか？')) {
+			$(this).val($(this).data('previous') || '');
+			return;
+		}
+		$(this).data('previous', $(this).val());
+		renderPart('FACE', $(this).val());
+	});
+
+	$(document).on('change', '.js-pattern', function () { applyPattern(this); });
+});
+</script>
+
+</body>
+</html>

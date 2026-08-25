@@ -1,0 +1,1641 @@
+@charset "utf-8";
+
+html {
+	font-size: 62.5%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	background-color: #efefef;
+	color: #000;
+	font-family:-apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'メイリオ', 'Meiryo', 'ＭＳ ゴシック', sans-serif;
+	height: 100%;
+	animation: fadeIn 1s ease 0s 1 normal;
+	-webkit-animation: fadeIn 1s ease 0s 1 normal;
+}
+
+@keyframes fadeIn {
+	0% {opacity: 0}
+	100% {opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+	0% {opacity: 0}
+	100% {opacity: 1}
+}
+
+
+/* ===================================================
+wrap
+*  =================================================== */
+
+.wrap {
+	margin: 0 auto;
+	padding-top: 112px;
+	position: relative;
+}
+
+.wrap img {
+	height: auto;
+	vertical-align: top;
+	width: 100%;
+}
+
+/* ===================================================
+gnav
+*  =================================================== */
+
+.gnav {
+	background-color: #fff;
+	border-bottom: 1px solid #dedede;
+	box-sizing: border-box;
+	height: 56px;
+	margin: 0 auto;
+	position: fixed;
+		top: 0;
+		left: 0;
+	width: 100%;
+	z-index: 2;
+}
+
+.gnav-blk {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+.gnav-blkL {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+}
+
+.gnav-logo {
+	height: 56px;
+	position: relative;
+	width: 80px;
+}
+
+.gnav-logo-icon {
+	height: 16px;
+	margin: auto;
+	position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	width: 64px;
+}
+
+.gnav-clinic {
+	color: #717171;
+	font-size: 1.2rem;
+	height: 56px;
+	letter-spacing: 0;
+	line-height: 1.2rem;
+	padding-left: 8px;
+	padding-top: 24px;
+}
+
+.gnav-btn-list {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+}
+
+.gnav-btn-list li {
+	font-size: 1.1rem;
+	text-align: center;
+}
+
+.gnav-btn-list li:last-child {
+	font-size: 1.0rem;
+}
+
+.gnav-btn-list li a {
+	border-left: 1px solid #dedede;
+ color: #000;
+	display: block;
+	height: 56px;
+	text-decoration: none;
+	width: 56px;
+}
+
+.gnav-btn-list li:last-child a {
+	color: #717171;
+	padding-top: 23px;
+	width: 80px;
+}
+
+.gnav-btn-list li a:active {
+	background-color: #ffefd5;
+}
+
+.gnav-btn-list li img {
+	margin-bottom: 4px;
+	margin-top: 10px;
+	height: 24px;
+}
+
+.gnav-btn-list li img.sgl-btn {
+	margin-bottom: 0;
+	margin-top: 18px;
+	height: 20px;
+}
+
+/* ===================================================
+pagettl
+*  =================================================== */
+
+.pagettl {
+	background-color: #fff;
+	border-bottom: 1px solid #dedede;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 56px;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	margin: 0 auto;
+	position: fixed;
+		top: 56px;
+		left: 0;
+	width: 100%;
+	z-index: 2;
+}
+
+.pagettl-blkL {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	height: 56px;
+	margin-left: 16px;
+}
+
+.pagettl-blkL li {
+	display: inline-block;
+	margin-left: 16px;
+	vertical-align: middle;
+}
+
+.pagettl-blkL li:first-of-type {
+	margin-left: 0;
+}
+
+.pagettl-blkL li.name {
+	font-size: 2.0rem;
+	font-weight: bold;
+	letter-spacing: 0.08rem;
+	line-height: 2.0rem;
+}
+
+.pagettl-blkL li.name::after {
+	content: "様 診療記録";
+}
+
+.pagettl-blkL li img {
+	height: 28px;
+	width: 28px;
+}
+
+.pagettl-blkR {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	height: 56px;
+	margin-right: 24px;
+}
+
+.pagettl-blkR li {
+	display: inline-block;
+	margin-left: 16px;
+	vertical-align: middle;
+}
+
+.pagettl-blkR li:first-of-type {
+	margin-left: 0;
+}
+
+.pagettl-btn {
+	background: #7ba3e6;
+	border-radius: 20px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.4rem;
+	font-weight: bold;
+	line-height: 1.4rem;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	text-align: center;
+	width: 114px;
+}
+
+.pagettl-btn-cancel {
+	background: #fff;
+	border: 1px solid #7ba3e6;
+	border-radius: 20px;
+	box-sizing: border-box;
+	color: #7ba3e6;
+	cursor: pointer;
+	font-size: 1.4rem;
+	font-weight: bold;
+	line-height: 1.4rem;
+	padding-bottom: 9px;
+	padding-top: 9px;
+	text-align: center;
+	width: 114px;
+}
+
+/* ===================================================
+colm
+*  =================================================== */
+
+.colm {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+}
+
+.colm-sidebar-navsty {
+	width: 160px;
+}
+
+.colm-sidebar-blk-navsty {
+	background: #fff;
+	height: 100%;
+	position: fixed;
+		top: 112px;
+		left: 0;
+	width: 160px;
+}
+
+.colm-main-navsty {
+ height: auto;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	width: 100%;
+/*	width: calc(100% - 160px); */
+}
+
+/* ===================================================
+colm-nav
+*  =================================================== */
+
+.colm-nav li {
+	background-size: 8px;
+	background-position: right 8px center;
+	background-repeat: no-repeat;
+	background-image: url(/icon/icon-arrow-blue.svg);
+	border-bottom: 1px solid #dedede;
+}
+
+.colm-nav li a {
+	color: #000;
+	display: block;
+	font-size: 1.6rem;
+	font-weight: bold;
+	padding: 20px 0 20px 16px;
+	text-decoration: none;
+}
+
+.colm-nav li a:hover {
+	background: #efefef;
+	color: #7ba3e6;
+	font-weight: bold;
+	padding-left: 32px;
+}
+
+.colm-nav li a:active {
+	background: #efefef;
+	color: #7ba3e6;
+	font-weight: bold;
+	padding-left: 32px;
+}
+
+.colm-nav li a.active {
+	background: #efefef;
+	color: #7ba3e6;
+	font-weight: bold;
+	padding-left: 32px;
+}
+
+/* ===================================================
+pnl-entry
+*  =================================================== */
+
+.pnl-entry {
+	background-color: #fff;
+	box-shadow: 0 0 8px #cecece;
+	border-radius: 8px;
+	box-sizing: border-box;
+	margin: 24px;
+	min-height: 512px;
+	overflow: hidden;
+}
+
+.pnl-entry-hdr {
+	background-color: #a6c1ee;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: bold;
+	line-height: 1.6rem;
+	padding: 10px 8px 6px;
+}
+
+.pnl-entry-blk {
+	padding: 24px;
+}
+
+/* ===================================================
+pnl-upper
+*  =================================================== */
+
+.pnl-upper {
+	background-color: #fff;
+	box-shadow: 0 0 8px #cecece;
+	border-radius: 8px;
+	box-sizing: border-box;
+	margin: 24px 24px 0;
+	overflow: hidden;
+}
+
+.pnl-upper-hdr {
+	background-color: #a6c1ee;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: bold;
+	line-height: 1.6rem;
+	padding: 10px 8px 6px;
+}
+
+.pnl-upper-blk {
+	padding: 24px;
+}
+
+/* ===================================================
+mr-entry
+*  =================================================== */
+
+.mr-entry {
+	margin-bottom: 40px;
+}
+
+.mr-entry .info-blk {
+	background: #efefef;
+	border-top: 1px solid #dedede;
+}
+
+.mr-entry .info-blk .blk-service ,
+.mr-entry .info-blk .blk-monshin {
+	border-bottom: 1px solid #dedede;
+	box-sizing: border-box;
+	padding: 16px;
+}
+
+.mr-entry .info-blk .ttl {
+	font-size: 1.2rem;
+	font-weight: bold;
+	line-height: 1.2rem;
+	margin-bottom: 16px;
+}
+
+.mr-entry .info-blk .blk-service ul {
+	margin-bottom: 8px;
+}
+
+.mr-entry .info-blk .blk-service ul:last-of-type {
+	margin-bottom: 0;
+}
+
+.mr-entry .info-blk .blk-service li {
+	display: inline-block;
+	font-size: 1.4rem;
+	line-height: 1.4rem;
+	margin-left: 16px;
+}
+
+.mr-entry .info-blk .blk-service li:first-of-type {
+	margin-left: 0;
+}
+
+.mr-entry .info-blk .blk-service .service-reserve li {
+	color: #727171;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+}
+
+.mr-entry .info-blk .blk-service li.room::before {
+	content: "施術室";
+	color: #727171;
+	font-size: 1.0rem;
+}
+
+/* ===================================================
+monshin
+*  =================================================== */
+
+.dl-monshin {
+	vertical-align: middle;
+}
+
+.dl-monshin dt {
+	font-size: 1.2rem;
+	line-height: 1.6rem;
+	padding-bottom: 4px;
+}
+
+.dl-monshin dt:before {
+	content: '';
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 8px solid #000;
+	display: inline-block;
+	margin-right: 4px;
+}
+
+.dl-monshin dd {
+	font-size: 1.6rem;
+	font-weight: bold;
+	line-height: 2.4rem;
+	padding-bottom: 12px;
+}
+
+.dl-monshin dd.detail {
+	color: #727171;
+	font-weight: normal;
+	padding-bottom: 24px;
+}
+
+.dl-monshin dd:last-of-type {
+	padding-bottom: 0;
+}
+
+.dl-monshin dd dl {
+	border-bottom: 1px dotted #727171;
+	padding-bottom: 8px;
+	margin-bottom: 16px;
+	margin-left: 32px;
+}
+
+.dl-monshin dd dl:last-of-type {
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
+.dl-monshin dd dl dt {
+	font-weight: normal;
+	padding-top: 0;
+}
+
+.dl-monshin dd dl dd {
+	font-size: 1.6rem;
+	line-height: 2.4rem;
+	padding-bottom: 8px;
+}
+
+/* ===================================================
+form
+*  =================================================== */
+
+/* --------------------
+transfer-ttl
+----------------------- */
+
+.form .transfer-ttl {
+	font-size: 1.6rem;
+	margin-bottom: 8px;
+}
+
+.form .transfer-ttl:before {
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 10px solid #fc818f;
+	display: inline-block;
+	margin-right: 4px;
+}
+
+/* --------------------
+select
+----------------------- */
+
+.form .selectbtn {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+}
+
+.form .selectbtn:before {
+	border-top: 4px solid #7ba3e6;
+	border-right: 4px solid #7ba3e6;
+	content: '';
+	height: 8px;
+	padding: 0;
+	pointer-events: none;
+	position: absolute;
+		top: 14px;
+		right: 8px;
+	-webkit-transform: rotate(135deg);
+	transform: rotate(135deg);
+	width: 8px;
+	z-index: 1;
+}
+
+.form .selectbtn select {
+	background: #fff;
+	border: 1px solid #c9caca;
+	border-radius: 8px;
+	box-sizing: border-box;
+	display: block;
+	font-size: 1.6rem;
+	height: 44px;
+	padding: 0 8px;
+	width: 100%;
+}
+
+.form .selectbtn select::-ms-expand {
+	display: none;
+}
+
+.form .selectbtn select:-moz-focusring {
+	color: transparent;
+}
+
+/* --------------------
+treatmentselectbtn
+----------------------- */
+
+.form .treatmentselectbtn {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+}
+
+.form .treatmentselectbtn:before {
+	border-top: 4px solid #7ba3e6;
+	border-right: 4px solid #7ba3e6;
+	content: '';
+	height: 8px;
+	padding: 0;
+	pointer-events: none;
+	position: absolute;
+		top: 13px;
+		right: 0;
+	-webkit-transform: rotate(135deg);
+	transform: rotate(135deg);
+	width: 8px;
+	z-index: 1;
+}
+
+.form .treatmentselectbtn select {
+	box-sizing: border-box;
+	display: block;
+	font-size: 1.2rem;
+	height: 40px;
+	width: 100%;
+}
+
+.form .treatmentselectbtn select::-ms-expand {
+	display: none;
+}
+
+.form .treatmentselectbtn select:-moz-focusring {
+	color: transparent;
+}
+
+/* --------------------
+textarea
+----------------------- */
+
+.form textarea {
+	border: 1px solid #c9caca;
+	border-radius: 8px;
+	box-sizing: border-box;
+	display: block;
+	font-size: 1.8rem;
+	height: 280px;
+	letter-spacing: 0;
+	line-height: 2.4rem;
+	margin-top: 16px;
+	padding: 8px;
+	width: 100%;
+}
+
+.form textarea:focus {
+	border: 2px solid #febbbb;
+}
+
+/* --------------------
+text
+----------------------- */
+
+.form input[type=text],input[type=number] {
+	background: #fff;
+	border: 1px solid #c9caca;
+	border-radius: 8px;
+	box-sizing: border-box;
+	display: block;
+	font-size: 1.6rem;
+	font-weight: bold;
+	line-height: 1.6rem;
+	height: 44px;
+	padding: 0 8px;
+	width: 100%;
+}
+
+.form input[type=text]:focus,input[type=number]:focus {
+	border: 2px solid #febbbb;
+}
+
+.form input::-webkit-input-placeholder {
+	font-weight: normal;
+	padding-top: 2px;
+}
+
+/* --------------------
+btn-add
+----------------------- */
+
+.form .btn-add {
+	margin-top: 16px;
+	text-align: right;
+}
+
+.form .btn-add .btn-add-inn {
+	background: #7ba3e6;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.4rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.4rem;
+	padding-bottom: 12px;
+	padding-top: 12px;
+	text-align: center;
+	width: 144px;
+}
+
+/* ===================================================
+tbl-counter
+*  =================================================== */
+
+.tbl-counter {
+	border-collapse: collapse;
+	margin-bottom: 40px;
+	margin-top: 4px;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.tbl-counter thead th {
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 1.2rem;
+	padding: 4px 8px;
+	text-align: center;
+}
+
+.tbl-counter tbody td {
+	border: 1px solid #dedede;
+	font-size: 1.6rem;
+	line-height: 1.6rem;
+	padding: 8px;
+}
+
+/* ===================================================
+tbl-datsumo
+*  =================================================== */
+
+.tbl-datsumo {
+	border-collapse: collapse;
+	margin-bottom: 40px;
+	margin-top: 4px;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.tbl-datsumo thead th {
+	background: #efefef;
+	border: 1px solid #dedede;
+	font-size: 1.2rem;
+	padding: 4px 8px;
+	text-align: center;
+}
+
+.tbl-datsumo thead th.lasttime {
+	width: 32px;
+}
+
+.tbl-datsumo thead th.counter {
+	width: 160px;
+}
+
+.tbl-datsumo thead th.aftertreatment {
+	width: 144px;
+}
+
+.tbl-datsumo tbody td {
+	border: 1px solid #dedede;
+	font-size: 1.2rem;
+	line-height: 1.6rem;
+	padding: 12px 8px;
+}
+
+.tbl-datsumo tbody td.notice {
+	color: #fc818f;
+	font-weight: bold;
+}
+
+.tbl-datsumo tbody td.lasttime {
+	color: #888;
+	text-align: center;
+}
+
+.tbl-datsumo tbody td.counter {
+	padding: 12px 0;
+}
+
+/* ===================================================
+treatmentcounter
+*  =================================================== */
+
+.treatmentcounter {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+.treatmentcounter li {
+	list-style-type: none;
+}
+
+.treatmentcounter li input[type=text] {
+	background: #efefef;
+	border: none;
+	border-radius: 4px;
+	font-size: 2.4rem;
+	font-weight: bold;
+	height: 40px;
+	margin-left: 4px;
+	padding: 0;
+	pointer-events: none;
+	text-align: center;
+	vertical-align: middle;
+	width: 56px;
+}
+
+.treatmentcounter li input[type="button"].plus ,
+.treatmentcounter li input[type="button"].minus {
+	background: #7ba3e6;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 2.0rem;
+	height: 40px;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	width: 48px;
+}
+
+.treatmentcounter li input[type="button"].minus {
+	margin-left: 4px;
+}
+
+/* ===================================================
+chema
+*  =================================================== */
+
+.chema {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+}
+
+.chema-left {
+	border: solid 2px #dedede;
+	border-radius: 4px;
+	height: 480px;
+	width: 720px;
+}
+
+.chema-right {
+	margin-left: 8px;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	width: calc(100% - 720px);
+}
+
+.chema-right .ttl {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 16px;
+}
+
+.chema-right ul li {
+	color: #fff;
+	border-radius: 4px;
+	font-size: 1.0rem;
+	font-weight: bold;
+	margin-bottom: 8px;
+	padding: 16px 4px;
+}
+
+/* ===================================================
+photo
+*  =================================================== */
+
+.photo-select {
+	margin-top: 120px;
+	text-align:  center;
+}
+
+.photo-select .btn-submit {
+	background: #7ba3e6;
+	border-radius: 24px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.6rem;
+	padding-bottom: 14px;
+	padding-top: 14px;
+	text-align: center;
+	width: 160px;
+}
+
+.photo {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.photo li {
+	border: 1px solid #dedede;
+	margin-bottom: 16px;
+	padding: 8px 8px 48px;
+	position: relative;
+	width: 30%;
+}
+
+.photo li label {
+	display: block;
+}
+
+.photo li label:before {
+	background-color: #fff;
+	border: 1px solid #a8a8a8;
+	border-radius: 4px;
+	content: '';
+	height: 32px;
+	position: absolute;
+		bottom: 8px;
+		right: 8px;
+	width: 32px;
+}
+
+.photo li input[type="checkbox"] {
+	display: none;
+}
+
+.photo li input[type="checkbox"]:checked + label:after {
+	border-left: 5px solid #eb6ea5;
+	border-bottom: 5px solid #eb6ea5;
+	content: '';
+	height: 10px;
+	position: absolute;
+		bottom: 20px;
+		right: 15px;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	width: 16px;
+}
+
+/* ===================================================
+prescribe
+*  =================================================== */
+
+.prescribe {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 100%;
+	margin: 24px;
+}
+
+.prescribe-blkL {
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	height: 100%;
+	width: calc(100% - 360px);
+}
+
+.prescribe-blkR {
+	height: 100%;
+	width: 360px;
+}
+
+/* ===================================================
+prescribe-pnlL
+*  =================================================== */
+
+.prescribe-pnlL {
+	background-color: #fff;
+	box-shadow: 0 0 8px #cecece;
+	border-radius: 8px;
+ height: auto;
+	overflow: hidden;
+}
+
+.prescribe-pnlL .prescribe-pnlL-hdr {
+	background-color: #a6c1ee;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: bold;
+	line-height: 1.6rem;
+	padding: 8px 16px;
+}
+
+/* ===================================================
+prescribe-pnlR
+*  =================================================== */
+
+.prescribe-pnlR {
+	background-color: #fff;
+	box-shadow: 0 0 8px #cecece;
+	border-radius: 8px;
+	box-sizing: border-box;
+	margin-left: 24px;
+	overflow: hidden;
+	position: relative;
+}
+
+.prescribe-pnlR .prescribe-pnlR-hdr {
+	background-color: #a6c1ee;
+	color: #fff;
+	font-size: 1.5rem;
+	font-weight: bold;
+	line-height: 1.6rem;
+	padding: 9px 16px 8px;
+}
+
+.prescribe-pnlR .pnl-right-blk {
+	padding-bottom: 80px;
+}
+
+/* ===================================================
+medicine
+*  =================================================== */
+
+.medicine {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.medicine-blkL {
+	border-right: 2px solid #c9caca;
+	background: #eff1f5;
+	box-sizing: border-box;
+	min-height: 420px;
+	width: 180px;
+}
+
+.medicine-blkR {
+ height: auto;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	width: calc(100% - 180px);
+}
+
+/* --------------------
+menu
+----------------------- */
+
+.menu li {
+	position: relative;
+}
+
+.menu li input[type="radio"] {
+	display: none;
+}
+
+.menu li label {
+	border-bottom: 1px solid #c9caca;
+	box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	font-size: 1.6rem;
+	font-weight: bold;
+	height: 64px;
+	/* MOD 2026-08-17 Claude 行の高さが文字サイズ(1.6rem)より小さい 1.4rem になっており、
+	   名前が2行に折り返す項目(処方の「美容内服薬（美白プレミアムセット）」等)で行間が詰まって読みにくかった。
+	   文字サイズ基準の倍率指定(1.4倍)に直す。1行の項目の見た目は変わらない。 */
+	line-height: 1.4;
+	padding-left: 16px;
+	padding-right: 8px;
+	text-decoration: none;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.menu li label:after {
+	content: '';
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	border-left: 10px solid #fca0aa;
+	position: absolute;
+		top: 28px;
+		right: 8px;
+}
+
+.menu li input[type="radio"]:checked + label {
+	background-color: #fff;
+	margin-right:-2px;
+	pointer-events: none;
+}
+
+.menu li input[type="radio"]:checked + label:after {
+	border: none;
+}
+
+/* --------------------
+menu-detail
+----------------------- */
+
+.menu-detail {
+	padding: 16px;
+}
+
+.menu-detail section {
+	display: none;
+}
+
+.menu-detail li input[type="checkbox"] {
+	display: none;
+}
+
+.menu-detail li label {
+	background: #efefef;
+	border-bottom: 3px solid #c9caca;
+	border-radius: 8px;
+	box-sizing: border-box;
+	color: #000;
+	cursor: pointer;
+	display: block;
+	font-size: 1.2rem;
+	font-weight: bold;
+	height: 64px;
+	line-height: 1.6rem;
+	margin-bottom: 8px;
+	padding-left: 8px;
+	padding-right: 8px;
+	text-decoration: none;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	text-decoration: none;
+}
+
+.menu-detail li:last-child label {
+	margin-bottom: 0;
+}
+
+/* ===================================================
+cart
+*  =================================================== */
+
+.cart {
+	width: 100%;
+}
+
+.cart ul {
+	box-sizing: border-box;
+	padding-bottom: 16px;
+	padding-top: 12px;
+}
+
+.cart ul.product {
+	border-top: 1px dotted #c9caca;
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.cart ul.product:first-of-type{
+	border-top: none;
+}
+
+.cart ul.total {
+	border-top: 1px solid #c9caca;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+.cart li {
+	font-size: 1.0rem;
+	padding-top: 4px;
+}
+
+.cart li.product-detail {
+	font-size: 1.2rem;
+	line-height: 1.8rem;
+}
+
+.cart .input-blk {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+
+.cart .input-blk li {
+	padding-top: 8px;
+}
+
+.cart .input-blk li input {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+
+.cart .input-blk .trash li input.trash-btn {
+	background-image: url(/icon/icon-trash.svg);
+	background-size: 56%;
+	background-position: left center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	height: 40px;
+	padding: 0;
+	text-align: right;
+	vertical-align: middle;
+	width: 48px;
+}
+
+.cart .input-blk .counter {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+}
+
+.cart .input-blk .counter li input[type=text] {
+	background: #efefef;
+	border-radius: 4px;
+	font-size: 2.4rem;
+	font-weight: bold;
+	height: 40px;
+	margin-left: 4px;
+	padding: 0;
+	pointer-events: none;
+	text-align: center;
+	vertical-align: middle;
+	width: 56px;
+}
+
+.cart .input-blk .counter li input[type="button"].plus ,
+.cart .input-blk .counter li input[type="button"].minus {
+	background: #a0d7ce;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 2.0rem;
+	height: 40px;
+	margin-left: 4px;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	width: 48px;
+}
+
+.cart .input-blk .counter li.close input[type="button"].plus ,
+.cart .input-blk .counter li.close input[type="button"].minus {
+	background: #efefef;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 2.0rem;
+	height: 40px;
+	margin-left: 4px;
+	padding: 0;
+	pointer-events: none;
+	text-align: center;
+	vertical-align: middle;
+	width: 48px;
+}
+
+.cart .input-blk .counter li.unit {
+	font-size: 1.8rem;
+	font-weight: bold;
+	padding-left: 4px;
+	padding-top: 28px;
+}
+
+.pnl-btn-blk {
+	clear: both;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+}
+
+.pnl-btn-blk .btn-submit-entry {
+	background: #7ba3e6;
+	border-radius: 24px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.6rem;
+	margin-left: 16px;
+	padding-bottom: 14px;
+	padding-top: 14px;
+	text-align: center;
+	width: 128px;
+}
+
+/* ===================================================
+tbl-prescribe
+*  =================================================== */
+
+.tbl-prescribe {
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.tbl-prescribe thead th {
+	border-bottom: 1px solid #dedede;
+	font-size: 1.4rem;
+	padding: 4px 8px;
+}
+
+.tbl-prescribe thead th.data {
+	width: 56px;
+}
+
+.tbl-prescribe thead th.tblbtn {
+	width: 80px;
+}
+
+.tbl-prescribe tbody td {
+	border-bottom: 1px solid #dedede;
+	font-size: 1.4rem;
+	line-height: 2.0rem;
+	padding: 12px 8px;
+}
+
+.tbl-prescribe tbody td.data {
+	font-weight: bold;
+}
+
+.tbl-prescribe td.tblbtn {
+	padding: 0 8px;
+}
+
+.tbl-prescribe td.tblbtn .btn-submit-small {
+	background: #fca0aa;
+	border-radius: 16px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.2rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.2rem;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	text-align: center;
+	width: 80px;
+}
+
+.tbl-prescribe td.tblbtn .btn-submit-small.close {
+	background: #ebebeb;
+	pointer-events: none;
+}
+
+/* ===================================================
+consent-summary
+*  =================================================== */
+
+.consent-summary li {
+	border-bottom: 1px solid #dedede;
+	list-style-type: none;
+	position: relative;
+}
+
+.consent-summary li a {
+	background-size: 8px;
+	background-position: right 4px center;
+	background-repeat: no-repeat;
+	background-image: url(/icon/icon-arrow-right.svg);
+	color: #000;
+	display: block;
+	font-size: 1.2rem;
+	font-weight: bold;
+	line-height: 1.2rem;
+	padding: 16px 8px;
+}
+
+.consent-summary li a .date {
+	padding-right: 8px;
+}
+
+.consent-summary li a:hover {
+	background-color: #ffefd5;
+}
+
+.consent-summary li a:active {
+	background-color: #ffefd5;
+}
+
+/* ===================================================
+consent
+*  =================================================== */
+
+/* --------------------
+consent-btn
+----------------------- */
+
+.consent-btn {
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 24px;
+	text-align: right;
+}
+
+.consent-btn .btn-submit {
+	background: #7ba3e6;
+	border-radius: 24px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.6rem;
+	padding-bottom: 14px;
+	padding-top: 14px;
+	text-align: center;
+	width: 160px;
+}
+
+/* --------------------
+consent-blk
+----------------------- */
+
+.consent-blk {
+	font-size: 1.4rem;
+	line-height: 2.4rem;
+	padding: 0 16px;
+}
+
+/* --------------------
+consent-dl
+----------------------- */
+
+.consent-blk .consent-dl {
+	display: table;
+	padding-bottom: 16px;
+	width: 100%;
+}
+
+.consent-blk .consent-dl dt {
+	display: table-cell;
+	line-height: 2.4rem;
+	width: 32px;
+}
+
+.consent-blk .consent-dl dd {
+	display: table-cell;
+	line-height: 2.4rem;
+}
+
+.consent-blk .consent-dl dd span {
+	border-bottom: 1px solid #000;
+}
+
+/* --------------------
+consent-txt
+----------------------- */
+
+.consent-blk .consent-txt {
+	padding-bottom: 32px;
+	padding-top: 32px;
+	text-align: right;
+}
+
+/* --------------------
+day
+----------------------- */
+
+.consent-blk .day {
+	margin: 0 0 0 auto;
+	width: 320px;
+}
+
+.consent-blk .day dt {
+	display: inline-block;
+	padding-right: 16px;
+}
+
+.consent-blk .day dd {
+	display: inline-block;
+}
+
+/* --------------------
+dr-namne
+----------------------- */
+
+.consent-blk .dr-namne {
+	border-bottom: 1px solid #555;
+	margin: 32px 0 0 auto;
+	padding-bottom: 4px;
+	width: 320px;
+}
+
+.consent-blk .dr-namne dt {
+	display: inline-block;
+	padding-right: 16px;
+}
+
+.consent-blk .dr-namne dd {
+	display: inline-block;
+	font-size: 1.8rem;
+}
+
+/* --------------------
+staff-namne
+----------------------- */
+
+.consent-blk .staff-namne {
+	border-bottom: 1px solid #555;
+	margin: 32px 0 0 auto;
+	padding-bottom: 4px;
+	width: 320px;
+}
+
+.consent-blk .staff-namne dt {
+	display: inline-block;
+	padding-right: 16px;
+}
+
+.consent-blk .staff-namne dd {
+	display: inline-block;
+	font-size: 1.8rem;
+}
+
+/* ===================================================
+esign
+*  =================================================== */
+
+/* --------------------
+esign-print
+----------------------- */
+
+.esign-print {
+	clear: both;
+	margin: 32px 0 32px auto;
+	width: 320px;
+}
+
+.esign-print .esign-blk {
+	border-bottom: 1px solid #555;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-webkit-align-items: flex-end;
+	-ms-align-items: flex-end;
+	align-items: flex-end;
+	padding-bottom: 4px;
+}
+
+.esign-print .esign-blk .esign-blkL {
+	width: 64px;
+}
+
+.esign-print .esign-blk .esign-blkR {
+	width: 256px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===================================================
+btn
+*  =================================================== */
+
+.btn {
+	clear: both;
+	margin-top: 56px;
+	text-align: right;
+}
+
+.btn .btn-submit {
+	background: #7ba3e6;
+	border-radius: 24px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.6rem;
+	margin-left: 16px;
+	padding-bottom: 14px;
+	padding-top: 14px;
+	text-align: center;
+	width: 160px;
+}
+
+.btn .btn-cancel {
+	border: 1px solid #7ba3e6;
+	background: #fff;
+	border-radius: 24px;
+	box-sizing: border-box;
+	color: #7ba3e6;
+	cursor: pointer;
+	font-size: 1.6rem;
+	font-weight: bold;
+	letter-spacing: 0;
+	line-height: 1.6rem;
+	margin-left: 16px;
+	padding-bottom: 13px;
+	padding-top: 13px;
+	text-align: center;
+	width: 160px;
+}

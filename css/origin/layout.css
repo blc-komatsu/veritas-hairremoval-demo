@@ -1,0 +1,223 @@
+@charset "utf-8";
+
+html {
+    font-size: 62.5%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: #efefef;
+    color: #000;
+    font-family:-apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'メイリオ', 'Meiryo', 'ＭＳ ゴシック', sans-serif;
+    height: 100%;
+    animation: fadeIn 1s ease 0s 1 normal;
+    -webkit-animation: fadeIn 1s ease 0s 1 normal;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+/* ===================================================
+wrap
+*  =================================================== */
+
+.wrap {
+    margin: 0 auto;
+    padding-top: 112px;
+    position: relative;
+}
+
+.wrap img {
+    height: auto;
+    vertical-align: top;
+    width: 100%;
+}
+
+/* ===================================================
+gnav
+*  =================================================== */
+
+.gnav {
+    background-color: #fff;
+    border-bottom: 1px solid #dedede;
+    box-sizing: border-box;
+    height: 56px;
+    margin: 0 auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.gnav-blk {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.gnav-blkL {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.gnav-logo {
+    height: 56px;
+    position: relative;
+    width: 80px;
+}
+
+.gnav-logo-icon {
+    height: 16px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 64px;
+}
+
+.gnav-clinic {
+    color: #717171;
+    font-size: 1.2rem;
+    height: 56px;
+    letter-spacing: 0;
+    line-height: 1.2rem;
+    padding-left: 8px;
+    padding-top: 24px;
+}
+
+.gnav-btn-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.gnav-btn-list li {
+    border-left: 1px solid #dedede;
+    height: 56px;
+    text-decoration: none;
+    width: 56px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.gnav-btn-list li:last-child {
+    font-size: 1.0rem;
+}
+
+.gnav-btn-list li a {
+    border-left: 1px solid #dedede;
+    color: #000;
+    display: block;
+    height: 56px;
+    text-decoration: none;
+    width: 56px;
+}
+
+.gnav-btn-list li:last-child a {
+    color: #717171;
+    padding-top: 23px;
+    width: 80px;
+}
+
+.gnav-btn-list li a:active {
+    background-color: #fbeff9;
+}
+
+.gnav-btn-list li img {
+    margin-bottom: 4px;
+    margin-top: 10px;
+    height: 24px;
+}
+
+.gnav-btn-list li img.sgl-btn {
+    margin-bottom: 0;
+    margin-top: 18px;
+    height: 20px;
+}
+
+.gnav-btn-list li img.gray-menu-item {
+    margin-bottom: 0;
+    margin-top: 18px;
+    height: 20px;
+}
+
+li#worker-menu-box {
+    font-size: 1.0rem;
+    color: #717171;
+    padding-top: 23px;
+    width: 80px;
+    cursor: pointer;
+}
+
+ul#worker-menu {
+    display: none;
+    list-style: none;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    z-index: 99;
+}
+
+ul#worker-menu li {
+    width: 80px;
+    height: 56px;
+    color: #717171;
+    border-left: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    background-color: #fff;
+}
+
+ul#worker-menu li form {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+ul#worker-menu button {
+    border-radius: 0;
+    background-color: #888;
+    color: #fff;
+    font-size: 1.0rem;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* error message */
+.error-message {
+	color: #e85298 !important;
+}
+
+/* disabled */
+.disabled {
+	display: none;
+}
