@@ -71,6 +71,15 @@
 				<div class="form">
 					<div class="transfer-ttl">ショット数</div>
 					<table class="tbl-counter tbl-shot">
+						<!-- 列幅を固定する表なので、列の定義を明示して「ハンドピース総ショット数」が
+						     当日開始時・当日終了時の2列にかかるようにする -->
+						<colgroup>
+							<col style="width:12%">
+							<col style="width:22%">
+							<col style="width:18%">
+							<col style="width:24%">
+							<col style="width:24%">
+						</colgroup>
 						<thead>
 							<tr>
 								<th rowspan="2">部位</th>
