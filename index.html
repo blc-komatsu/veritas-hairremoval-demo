@@ -35,7 +35,7 @@
 		content: ''; position: absolute; right: 12px; top: 15px; width: 7px; height: 7px;
 		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
 	}
-	.tbl-shot th, .tbl-shot td { text-align: center; vertical-align: middle; }
+	.tbl-shot td { text-align: center; vertical-align: middle; }
 	.tbl-shot input[type="number"] {
 		width: 110px; text-align: right; background: #fff; border: 1px solid #ccc;
 		border-radius: 6px; height: 36px; padding: 4px 8px; font-size: 1.4rem;
@@ -45,9 +45,6 @@
 	.tbl-irradiation .pattern-select select { min-width: 120px; font-size: 1.1rem; height: 32px; padding: 4px 24px 4px 8px; }
 	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
 	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
-	.tbl-irradiation input[type="text"] { width: 60px; text-align: right; }
-	/* 大分類・中分類の見出しは行が高いので上寄せにする（本番も同様に見えるよう調整） */
-	.tbl-datsumo tbody td.group-label { vertical-align: top; padding-top: 14px; }
 </style>
 </head>
 <body>
@@ -76,14 +73,14 @@
 					<table class="tbl-counter tbl-shot">
 						<thead>
 							<tr>
-								<th rowspan="2" style="width:12%">部位</th>
-								<th rowspan="2" style="width:24%">使用機器</th>
-								<th rowspan="2" style="width:16%">ショット数</th>
+								<th rowspan="2">部位</th>
+								<th rowspan="2">使用機器</th>
+								<th rowspan="2">ショット数</th>
 								<th colspan="2">ハンドピース総ショット数</th>
 							</tr>
 							<tr>
-								<th style="width:24%">当日開始時</th>
-								<th style="width:24%">当日終了時</th>
+								<th>当日開始時</th>
+								<th>当日終了時</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -161,18 +158,22 @@ var PATTERN_NORMAL_8 = 7;   // 通常8回目
 var PATTERN_DARK_8 = 15;    // 濃い8回目
 var INDIVIDUAL = ['乳輪','V','I','O'];  // 参照回数を部位ごとに選ぶ
 
-// 部位の構成（大分類 → 中分類 → 部位）
+// 部位の構成（大分類 → 中分類 → 部位）。本番と同じく大分類は中分類をまたいで縦に結合する
 var BODY = {
-	WHOLE: { label:'全身', groups:[
-		{ type:'全身', sub:'体幹おもて', regions:['デコルテ','わき','バスト','乳輪','腹部','下腹部'] },
-		{ type:'全身', sub:'体幹うら', regions:['肩','背中','腰','ヒップ'] },
-		{ type:'全身', sub:'腕', regions:['ひじ上','ひじ下','手','指'] },
-		{ type:'全身', sub:'足', regions:['もも表','もも裏','ひざ表','ひざ裏','すね表','すね裏','足指'] },
-		{ type:'VIO', sub:'VIO', regions:['V','I','O'] },
-		{ type:'うなじ', sub:'うなじ', regions:['うなじ'] }
+	WHOLE: { label:'全身', types:[
+		{ type:'全身', subs:[
+			{ sub:'体幹おもて', regions:['デコルテ','わき','バスト','乳輪','腹部','下腹部'] },
+			{ sub:'体幹うら', regions:['肩','背中','腰','ヒップ'] },
+			{ sub:'腕', regions:['ひじ上','ひじ下','手','指'] },
+			{ sub:'足', regions:['もも表','もも裏','ひざ表','ひざ裏','すね表','すね裏','足指'] }
+		]},
+		{ type:'VIO', subs:[ { sub:'VIO', regions:['V','I','O'] } ]},
+		{ type:'うなじ', subs:[ { sub:'うなじ', regions:['うなじ'] } ]}
 	]},
-	FACE: { label:'顔', groups:[
-		{ type:'顔全体', sub:'顔', regions:['ひたい','眉間','ほほ','鼻','鼻下','あご','あご下','首'] }
+	FACE: { label:'顔', types:[
+		{ type:'顔全体', subs:[
+			{ sub:'顔', regions:['ひたい','眉間','ほほ','鼻','鼻下','あご','あご下','首'] }
+		]}
 	]}
 };
 
@@ -203,43 +204,52 @@ function buildTable(partKey, deviceCode) {
 		: '<th class="counter">J</th><th class="counter">P</th>';
 	html += '<th class="aftertreatment">照射後肌状態</th></tr></thead><tbody>';
 
-	// うなじは体幹うらに連動させるため、先に対象をまとめる
+	// うなじは体幹うらに連動させるため、先に対象をまとめておく
 	var napeIds = [];
-	part.groups.forEach(function (g) {
-		if (g.sub === 'うなじ') { g.regions.forEach(function (r) { napeIds.push(idPrefix + r); }); }
+	part.types.forEach(function (t) {
+		t.subs.forEach(function (g) {
+			if (g.sub === 'うなじ') { g.regions.forEach(function (r) { napeIds.push(idPrefix + r); }); }
+		});
 	});
 
-	part.groups.forEach(function (g) {
-		g.regions.forEach(function (region, idx) {
-			var rid = idPrefix + region;
-			var individual = INDIVIDUAL.indexOf(region) >= 0;
-			html += '<tr>';
-			if (idx === 0) {
-				html += '<td class="group-label" rowspan="' + g.regions.length + '">' + g.type + '</td>';
-				html += '<td class="group-label" rowspan="' + g.regions.length + '">' + g.sub;
-				if (splendor) {
-					var targets = g.regions.filter(function (r) { return INDIVIDUAL.indexOf(r) < 0; })
-						.map(function (r) { return idPrefix + r; });
-					if (g.sub === '体幹うら') { targets = targets.concat(napeIds); }
-					if (g.sub === 'うなじ') {
-						html += '<div class="linked">体幹うらと連動</div>';
-					} else if (targets.length) {
-						html += patternSelect(targets, PATTERN_NORMAL_8);
-					}
+	part.types.forEach(function (t) {
+		var typeRowCount = t.subs.reduce(function (n, g) { return n + g.regions.length; }, 0);
+		var firstOfType = true;
+		t.subs.forEach(function (g) {
+			g.regions.forEach(function (region, idx) {
+				var rid = idPrefix + region;
+				var individual = INDIVIDUAL.indexOf(region) >= 0;
+				html += '<tr>';
+				if (firstOfType) {
+					html += '<td rowspan="' + typeRowCount + '">' + t.type + '</td>';
+					firstOfType = false;
 				}
+				if (idx === 0) {
+					html += '<td rowspan="' + g.regions.length + '">' + g.sub;
+					if (splendor) {
+						var targets = g.regions.filter(function (r) { return INDIVIDUAL.indexOf(r) < 0; })
+							.map(function (r) { return idPrefix + r; });
+						if (g.sub === '体幹うら') { targets = targets.concat(napeIds); }
+						if (g.sub === 'うなじ') {
+							html += '<div class="linked">体幹うらと連動</div>';
+						} else if (targets.length) {
+							html += patternSelect(targets, PATTERN_NORMAL_8);
+						}
+					}
+					html += '</td>';
+				}
+				html += '<td>' + region;
+				if (splendor && individual) { html += patternSelect([rid], PATTERN_DARK_8); }
 				html += '</td>';
-			}
-			html += '<td>' + region;
-			if (splendor && individual) { html += patternSelect([rid], PATTERN_DARK_8); }
-			html += '</td>';
 
-			html += counterCell(rid + '_j', splendor ? 0.5 : 1);
-			if (splendor) { html += counterCell(rid + '_yag', 0.5); }
-			html += counterCell(rid + '_p', splendor ? 5 : 1);
+				html += counterCell(rid + '_j', splendor ? 0.5 : 1);
+				if (splendor) { html += counterCell(rid + '_yag', 0.5); }
+				html += counterCell(rid + '_p', splendor ? 5 : 1);
 
-			html += '<td><div class="treatmentselectbtn"><select>';
-			SKIN.forEach(function (s) { html += '<option>' + s + '</option>'; });
-			html += '</select></div></td></tr>';
+				html += '<td><div class="treatmentselectbtn"><select>';
+				SKIN.forEach(function (sk) { html += '<option>' + sk + '</option>'; });
+				html += '</select></div></td></tr>';
+			});
 		});
 	});
 	html += '</tbody></table></div></div>';
