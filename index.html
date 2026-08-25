@@ -35,7 +35,10 @@
 		content: ''; position: absolute; right: 12px; top: 15px; width: 7px; height: 7px;
 		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
 	}
-	.tbl-shot td { text-align: center; vertical-align: middle; }
+	/* この表は列幅固定だと結合見出し（ハンドピース総ショット数）が2列にかからないため、
+	   幅の自動計算に切り替える。列幅の目安は colgroup で指定 */
+	.tbl-shot { table-layout: auto; }
+	.tbl-shot th, .tbl-shot td { text-align: center; vertical-align: middle; }
 	.tbl-shot input[type="number"] {
 		width: 110px; text-align: right; background: #fff; border: 1px solid #ccc;
 		border-radius: 6px; height: 36px; padding: 4px 8px; font-size: 1.4rem;
