@@ -35,9 +35,6 @@
 		content: ''; position: absolute; right: 12px; top: 15px; width: 7px; height: 7px;
 		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
 	}
-	/* この表は列幅固定だと結合見出し（ハンドピース総ショット数）が2列にかからないため、
-	   幅の自動計算に切り替える。列幅の目安は colgroup で指定 */
-	.tbl-shot { table-layout: auto; }
 	.tbl-shot th, .tbl-shot td { text-align: center; vertical-align: middle; }
 	.tbl-shot input[type="number"] {
 		width: 110px; text-align: right; background: #fff; border: 1px solid #ccc;
@@ -73,7 +70,7 @@
 			<div class="mr-entry">
 				<div class="form">
 					<div class="transfer-ttl">ショット数</div>
-					<table class="tbl-counter tbl-shot">
+					<table class="tbl-counter tbl-shot no-flex">
 						<!-- 列幅を固定する表なので、列の定義を明示して「ハンドピース総ショット数」が
 						     当日開始時・当日終了時の2列にかかるようにする -->
 						<colgroup>
@@ -209,7 +206,7 @@ function buildTable(partKey, deviceCode) {
 	html += '<div class="transfer-ttl">照射記録（' + part.label + '）';
 	if (deviceCode) { html += '<span class="device-name">使用機器：' + deviceLabel(deviceCode) + '</span>'; }
 	html += '</div>';
-	html += '<table class="tbl-datsumo tbl-irradiation"><thead><tr>';
+	html += '<table class="tbl-datsumo tbl-irradiation no-flex"><thead><tr>';
 	html += '<th colspan="3">照射部位</th>';
 	html += splendor
 		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
