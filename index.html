@@ -54,7 +54,7 @@
 	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
 	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
 	.tbl-datsumo thead th.skip-col { width: 48px; }
-	.tbl-datsumo thead th.aftertreatment { width: 104px; }
+	.tbl-datsumo thead th.aftertreatment { width: 118px; }
 	.tbl-irradiation td.grp { font-size: 1.2rem; padding: 8px 4px; }
 	.tbl-irradiation col.col-type { width: 64px; }
 	.tbl-irradiation col.col-sub { width: 132px; }
@@ -67,9 +67,9 @@
 	.tbl-irradiation.compact .treatmentcounter li input[type="button"] { width: 38px; height: 36px; font-size: 1.6rem; }
 	.tbl-irradiation.compact .treatmentcounter li input[type="text"] { width: 46px; height: 36px; font-size: 2.0rem; }
 	.tbl-irradiation.compact tbody td.counter { padding: 8px 0; }
-	.tbl-irradiation col.col-num { width: 132px; }
+	.tbl-irradiation col.col-num { width: 128px; }
 	.tbl-irradiation col.col-num2 { width: 172px; }
-	.tbl-irradiation col.col-skin { width: 104px; }
+	.tbl-irradiation col.col-skin { width: 118px; }
 	.tbl-irradiation col.col-skip { width: 48px; }
 	.tbl-irradiation td.skip-col { text-align: center; }
 	.tbl-irradiation tr.skipped td:not(.grp) { background: #f4f4f4; }
@@ -257,7 +257,7 @@ function buildTable(partKey, deviceCode) {
 	html += splendor
 		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
 		: '<th class="counter">J</th><th class="counter">P</th>';
-	html += '<th class="aftertreatment">肌状態</th>';
+	html += '<th class="aftertreatment">照射後肌状態</th>';
 	html += '<th class="skip-col">除外</th></tr></thead><tbody>';
 
 	// うなじは体幹うらに連動させるため、先に対象をまとめておく
