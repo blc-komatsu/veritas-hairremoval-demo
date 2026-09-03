@@ -73,9 +73,12 @@
 	.tbl-irradiation col.col-skip { width: 48px; }
 	.tbl-irradiation td.skip-col { text-align: center; }
 	.tbl-irradiation tr.skipped td:not(.grp) { background: #f4f4f4; }
-	.tbl-irradiation tr.skipped .treatmentcounter,
-	.tbl-irradiation tr.skipped .treatmentselectbtn,
-	.tbl-irradiation tr.skipped .pattern-select { opacity: .3; pointer-events: none; }
+	/* 除外にしても、中分類（大分類・中分類のセル＝.grp）の参照回数は操作できる。
+	   参照回数は複数部位をまとめて設定する操作のため。
+	   部位ごとの参照回数（乳輪・V・I・O）は、その部位の欄なので一緒に操作不可にする。 */
+	.tbl-irradiation tr.skipped td:not(.grp) .treatmentcounter,
+	.tbl-irradiation tr.skipped td:not(.grp) .treatmentselectbtn,
+	.tbl-irradiation tr.skipped td:not(.grp) .pattern-select { opacity: .3; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -344,6 +347,8 @@ function applyPattern(select) {
 	var p = PATTERNS[parseInt(select.value, 10)];
 	if (!p) { return; }
 	String($(select).data('targets')).split(',').forEach(function (rid) {
+		// 除外にチェックした部位には値を入れない（除外したのに値が戻るのを防ぐ）
+		if ($('#' + rid + '_skip').is(':checked')) { return; }
 		$('#' + rid + '_j').val(trimZero(p[1]));
 		$('#' + rid + '_yag').val(trimZero(p[2]));
 		$('#' + rid + '_p').val(trimZero(p[3]));
