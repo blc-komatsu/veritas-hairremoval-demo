@@ -31,6 +31,14 @@
 		font-size: 1.4rem; height: 40px; line-height: 1.4; padding: 6px 30px 6px 10px; min-width: 180px;
 		-webkit-appearance: none; appearance: none;
 	}
+	/* 共通CSSは「input は display:none にして、隣の label に四角を描く」作法。
+	   その作法に合わせつつ、表の中で収まるサイズに調整する */
+	.hr-check-label { margin-right: 0 !important; padding-left: 26px !important; line-height: 26px !important; }
+	.hr-check-label:before { width: 24px !important; height: 24px !important; }
+	input[type="checkbox"]:checked + .hr-check-label:after {
+		top: 4px !important; left: 5px !important; width: 13px !important; height: 8px !important;
+		border-left-width: 4px !important; border-bottom-width: 4px !important;
+	}
 	.hr-select:after {
 		content: ''; position: absolute; right: 12px; top: 15px; width: 7px; height: 7px;
 		border-right: 2px solid #999; border-bottom: 2px solid #999; transform: rotate(45deg); pointer-events: none;
@@ -45,6 +53,12 @@
 	.tbl-irradiation .pattern-select select { min-width: 120px; font-size: 1.1rem; height: 32px; padding: 4px 24px 4px 8px; }
 	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
 	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
+	.tbl-datsumo thead th.skip-col { width: 92px; }
+	.tbl-irradiation td.skip-col { text-align: center; }
+	.tbl-irradiation tr.skipped td { background: #f4f4f4; }
+	.tbl-irradiation tr.skipped .treatmentcounter,
+	.tbl-irradiation tr.skipped .treatmentselectbtn,
+	.tbl-irradiation tr.skipped .pattern-select { opacity: .3; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -56,9 +70,11 @@
 
 <div class="demo-note">
 	<b>確認していただきたいこと</b><br>
-	① 「使用機器」を選ぶと、下の照射記録の表に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
-	② スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
-	③ ＋−ボタンの刻み（スプレンダーのJは0.5刻み）と、iPadでの押しやすさ・横幅をご確認ください。
+	① <b>「照射しない」チェック（新しい提案）</b>…照射を避けた部位は、右端のチェックを付けてください。数値が入力できなくなり、行がグレーになります。外せば元に戻ります。<br>
+	　 ※これまでは「Pに0を入れる」運用でしたが、機械によってPの意味が変わる（スプレンダーはパルス幅）ため、チェック方式のご提案です。<br>
+	② 「使用機器」を選ぶと、下の照射記録に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
+	③ スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
+	④ ＋−の押しやすさ、iPadでの横幅、チェック欄の位置（右端でよいか）をご確認ください。
 </div>
 
 <div class="colm-main-navsty2">
@@ -100,6 +116,7 @@
 										<select id="deviceWholeBody">
 											<option value="">選択してください</option>
 											<option value="MEDIOSTAR">メディオスター①</option>
+											<option value="MONOLITH">モノリス①</option>
 											<option value="SPLENDOR">スプレンダー①</option>
 										</select>
 									</span>
@@ -145,6 +162,13 @@
 <script>
 // ===== 機種ごとの初期値（本番のマスタと同じ値） =====
 var DEFAULTS = {
+	MONOLITH: {
+		'デコルテ':[10,1],'わき':[8,1],'バスト':[10,1],'乳輪':[10,1],'腹部':[10,1],'下腹部':[10,1],
+		'肩':[10,1],'背中':[10,1],'腰':[10,1],'ヒップ':[10,1],
+		'ひじ上':[10,1],'ひじ下':[10,1],'手':[10,1],'指':[10,1],
+		'もも表':[9,1],'もも裏':[9,1],'ひざ表':[9,1],'ひざ裏':[9,1],'すね表':[9,1],'すね裏':[9,1],'足指':[9,1],
+		'V':[4,1],'I':[6,1],'O':[6,1],'うなじ':[10,1]
+	},
 	MEDIOSTAR: {
 		'デコルテ':[10,1],'わき':[8,1],'バスト':[10,1],'乳輪':[10,1],'腹部':[10,1],'下腹部':[10,1],
 		'肩':[10,1],'背中':[10,1],'腰':[10,1],'ヒップ':[10,1],
@@ -152,8 +176,8 @@ var DEFAULTS = {
 		'もも表':[9,1],'もも裏':[9,1],'ひざ表':[9,1],'ひざ裏':[9,1],'すね表':[9,1],'すね裏':[9,1],'足指':[9,1],
 		'V':[4,1],'I':[6,1],'O':[6,1],'うなじ':[10,1]
 	},
-	ALEX:   {'ひたい':[11,1],'眉間':[11,1],'ほほ':[11,1],'鼻':[11,1],'鼻下':[11,1],'あご':[11,1],'あご下':[11,0],'首':[11,0]},
-	HYBRID: {'ひたい':[8,4],'眉間':[8,4],'ほほ':[8,4],'鼻':[8,4],'鼻下':[8,4],'あご':[8,4],'あご下':[8,0],'首':[8,0]}
+	ALEX:   {'ひたい':[11,1],'眉間':[11,1],'ほほ':[11,1],'鼻':[11,1],'鼻下':[11,1],'あご':[11,1],'フェイスライン':[11,0],'首':[11,0]},
+	HYBRID: {'ひたい':[9,4],'眉間':[9,4],'ほほ':[9,4],'鼻':[9,4],'鼻下':[9,4],'あご':[9,4],'フェイスライン':[9,0],'首':[9,0]}
 };
 
 // スプレンダーの参照回数（アレキ／ヤグ／パルス幅）
@@ -181,7 +205,7 @@ var BODY = {
 	]},
 	FACE: { label:'顔', types:[
 		{ type:'顔全体', subs:[
-			{ sub:'顔', regions:['ひたい','眉間','ほほ','鼻','鼻下','あご','あご下','首'] }
+			{ sub:'顔', regions:['ひたい','眉間','ほほ','鼻','鼻下','あご','フェイスライン','首'] }
 		]}
 	]}
 };
@@ -211,7 +235,8 @@ function buildTable(partKey, deviceCode) {
 	html += splendor
 		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
 		: '<th class="counter">J</th><th class="counter">P</th>';
-	html += '<th class="aftertreatment">照射後肌状態</th></tr></thead><tbody>';
+	html += '<th class="aftertreatment">照射後肌状態</th>';
+	html += '<th class="skip-col">照射しない</th></tr></thead><tbody>';
 
 	// うなじは体幹うらに連動させるため、先に対象をまとめておく
 	var napeIds = [];
@@ -255,9 +280,12 @@ function buildTable(partKey, deviceCode) {
 				if (splendor) { html += counterCell(rid + '_yag', 0.5); }
 				html += counterCell(rid + '_p', splendor ? 5 : 1);
 
-				html += '<td><div class="treatmentselectbtn"><select>';
+				html += '<td><div class="treatmentselectbtn"><select id="' + rid + '_skin">';
 				SKIN.forEach(function (sk) { html += '<option>' + sk + '</option>'; });
-				html += '</select></div></td></tr>';
+				html += '</select></div></td>';
+				html += '<td class="skip-col">'
+					+ '<input type="checkbox" id="' + rid + '_skip" class="js-skip" data-row="' + rid + '">'
+					+ '<label class="hr-check-label" for="' + rid + '_skip"></label></td></tr>';
 			});
 		});
 	});
@@ -340,6 +368,19 @@ $(function () {
 	});
 
 	$(document).on('change', '.js-pattern', function () { applyPattern(this); });
+
+	// 「照射しない」…その部位は入力できなくなる（グレー表示）。チェックを外せば元の値に戻る
+	$(document).on('change', '.js-skip', function () {
+		var rid = $(this).data('row');
+		var row = $(this).closest('tr');
+		var off = $(this).is(':checked');
+		row.toggleClass('skipped', off);
+		['_j', '_yag', '_p'].forEach(function (suffix) {
+			var el = $('#' + rid + suffix);
+			if (!el.length) { return; }
+			if (off) { el.data('kept', el.val()); el.val(''); } else { el.val(el.data('kept') || ''); }
+		});
+	});
 });
 </script>
 
