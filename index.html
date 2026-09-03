@@ -33,7 +33,7 @@
 	}
 	/* 共通CSSは「input は display:none にして、隣の label に四角を描く」作法。
 	   その作法に合わせつつ、表の中で収まるサイズに調整する */
-	.hr-check-label { margin-right: 0 !important; padding-left: 26px !important; line-height: 26px !important; }
+	.hr-check-label { margin-right: 0 !important; padding-left: 24px !important; line-height: 24px !important; }
 	.hr-check-label:before { width: 24px !important; height: 24px !important; }
 	input[type="checkbox"]:checked + .hr-check-label:after {
 		top: 4px !important; left: 5px !important; width: 13px !important; height: 8px !important;
@@ -53,9 +53,26 @@
 	.tbl-irradiation .pattern-select select { min-width: 120px; font-size: 1.1rem; height: 32px; padding: 4px 24px 4px 8px; }
 	.tbl-irradiation .pattern-select.hr-select:after { top: 12px; right: 8px; }
 	.tbl-irradiation .linked { color: #999; font-size: 1.1rem; margin-top: 4px; }
-	.tbl-datsumo thead th.skip-col { width: 92px; }
+	.tbl-datsumo thead th.skip-col { width: 48px; }
+	.tbl-datsumo thead th.aftertreatment { width: 104px; }
+	.tbl-irradiation td.grp { font-size: 1.2rem; padding: 8px 4px; }
+	.tbl-irradiation col.col-type { width: 64px; }
+	.tbl-irradiation col.col-sub { width: 132px; }
+	.tbl-irradiation col.col-region { width: 92px; }
+	/* 参照回数のプルダウンは中分類セルの幅いっぱいに */
+	.tbl-irradiation .pattern-select { margin-top: 6px; }
+	.tbl-irradiation .pattern-select select { min-width: 0; width: 100%; font-size: 1.15rem; height: 32px; padding: 3px 22px 3px 6px; }
+	.tbl-irradiation .pattern-select.hr-select { display: block; }
+	/* スプレンダーは数値欄が3つ並ぶので、＋−と数値を少し小さくして横幅を確保する */
+	.tbl-irradiation.compact .treatmentcounter li input[type="button"] { width: 38px; height: 36px; font-size: 1.6rem; }
+	.tbl-irradiation.compact .treatmentcounter li input[type="text"] { width: 46px; height: 36px; font-size: 2.0rem; }
+	.tbl-irradiation.compact tbody td.counter { padding: 8px 0; }
+	.tbl-irradiation col.col-num { width: 132px; }
+	.tbl-irradiation col.col-num2 { width: 172px; }
+	.tbl-irradiation col.col-skin { width: 104px; }
+	.tbl-irradiation col.col-skip { width: 48px; }
 	.tbl-irradiation td.skip-col { text-align: center; }
-	.tbl-irradiation tr.skipped td { background: #f4f4f4; }
+	.tbl-irradiation tr.skipped td:not(.grp) { background: #f4f4f4; }
 	.tbl-irradiation tr.skipped .treatmentcounter,
 	.tbl-irradiation tr.skipped .treatmentselectbtn,
 	.tbl-irradiation tr.skipped .pattern-select { opacity: .3; pointer-events: none; }
@@ -70,11 +87,12 @@
 
 <div class="demo-note">
 	<b>確認していただきたいこと</b><br>
-	① <b>「照射しない」チェック（新しい提案）</b>…照射を避けた部位は、右端のチェックを付けてください。数値が入力できなくなり、行がグレーになります。外せば元に戻ります。<br>
+	① <b>「除外」チェック（新しい提案）</b>…照射を避けた部位は右端の「除外」にチェックを付けてください。数値が入力できなくなり、その部位の行だけグレーになります（大分類・中分類はグレーになりません）。外せば元に戻ります。<br>
 	　 ※これまでは「Pに0を入れる」運用でしたが、機械によってPの意味が変わる（スプレンダーはパルス幅）ため、チェック方式のご提案です。<br>
+	　 ※見出しの言葉は仮です。「除外」以外に「対象外」「なし」「未照射」なども可能です。しっくりくる言葉があれば教えてください。<br>
 	② 「使用機器」を選ぶと、下の照射記録に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
 	③ スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
-	④ ＋−の押しやすさ、iPadでの横幅、チェック欄の位置（右端でよいか）をご確認ください。
+	④ iPadでの<b>横幅・文字の大きさ・＋−の押しやすさ</b>をご確認ください。スプレンダーのときは数値欄が3つ並ぶため、ボタンを少し小さくしています。
 </div>
 
 <div class="colm-main-navsty2">
@@ -230,13 +248,17 @@ function buildTable(partKey, deviceCode) {
 	html += '<div class="transfer-ttl">照射記録（' + part.label + '）';
 	if (deviceCode) { html += '<span class="device-name">使用機器：' + deviceLabel(deviceCode) + '</span>'; }
 	html += '</div>';
-	html += '<table class="tbl-datsumo tbl-irradiation no-flex"><thead><tr>';
+	html += '<table class="tbl-datsumo tbl-irradiation no-flex' + (splendor ? ' compact' : '') + '">';
+	html += '<colgroup><col class="col-type"><col class="col-sub"><col class="col-region">';
+	html += splendor ? '<col class="col-num"><col class="col-num"><col class="col-num">' : '<col class="col-num2"><col class="col-num2">';
+	html += '<col class="col-skin"><col class="col-skip"></colgroup>';
+	html += '<thead><tr>';
 	html += '<th colspan="3">照射部位</th>';
 	html += splendor
 		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
 		: '<th class="counter">J</th><th class="counter">P</th>';
-	html += '<th class="aftertreatment">照射後肌状態</th>';
-	html += '<th class="skip-col">照射しない</th></tr></thead><tbody>';
+	html += '<th class="aftertreatment">肌状態</th>';
+	html += '<th class="skip-col">除外</th></tr></thead><tbody>';
 
 	// うなじは体幹うらに連動させるため、先に対象をまとめておく
 	var napeIds = [];
@@ -255,11 +277,11 @@ function buildTable(partKey, deviceCode) {
 				var individual = INDIVIDUAL.indexOf(region) >= 0;
 				html += '<tr>';
 				if (firstOfType) {
-					html += '<td rowspan="' + typeRowCount + '">' + t.type + '</td>';
+					html += '<td class="grp" rowspan="' + typeRowCount + '">' + t.type + '</td>';
 					firstOfType = false;
 				}
 				if (idx === 0) {
-					html += '<td rowspan="' + g.regions.length + '">' + g.sub;
+					html += '<td class="grp" rowspan="' + g.regions.length + '">' + g.sub;
 					if (splendor) {
 						var targets = g.regions.filter(function (r) { return INDIVIDUAL.indexOf(r) < 0; })
 							.map(function (r) { return idPrefix + r; });
