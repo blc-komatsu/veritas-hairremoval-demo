@@ -72,8 +72,10 @@
 	.tbl-irradiation col.col-skin { width: 118px; }
 	.tbl-irradiation col.col-skip { width: 48px; }
 	.tbl-irradiation td.skip-col { text-align: center; }
+	.tbl-shot .shot-unit { color: #333; }
+	.tbl-shot .shot-none { color: #999; font-size: 1.2rem; }
 	.tbl-irradiation tr.skipped td:not(.grp) { background: #f4f4f4; }
-	/* 除外にしても、中分類（大分類・中分類のセル＝.grp）の参照回数は操作できる。
+	/* 未照射にしても、中分類（大分類・中分類のセル＝.grp）の参照回数は操作できる。
 	   参照回数は複数部位をまとめて設定する操作のため。
 	   部位ごとの参照回数（乳輪・V・I・O）は、その部位の欄なので一緒に操作不可にする。 */
 	.tbl-irradiation tr.skipped td:not(.grp) .treatmentcounter,
@@ -90,12 +92,13 @@
 
 <div class="demo-note">
 	<b>確認していただきたいこと</b><br>
-	① <b>「除外」チェック（新しい提案）</b>…照射を避けた部位は右端の「除外」にチェックを付けてください。数値が入力できなくなり、その部位の行だけグレーになります（大分類・中分類はグレーになりません）。外せば元に戻ります。<br>
-	　 ※これまでは「Pに0を入れる」運用でしたが、機械によってPの意味が変わる（スプレンダーはパルス幅）ため、チェック方式のご提案です。<br>
-	　 ※見出しの言葉は仮です。「除外」以外に「対象外」「なし」「未照射」なども可能です。しっくりくる言葉があれば教えてください。<br>
-	② 「使用機器」を選ぶと、下の照射記録に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
-	③ スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
-	④ iPadでの<b>横幅・文字の大きさ・＋−の押しやすさ</b>をご確認ください。スプレンダーのときは数値欄が3つ並ぶため、ボタンを少し小さくしています。
+	① <b>「未照射」チェック</b>…照射しなかった部位は右端の「未照射」にチェックを付けてください。数値が入力できなくなり、その部位の行だけグレーになります（大分類・中分類はグレーになりません）。外せば元に戻ります。<br>
+	　 ※これまでは「Pに0を入れる」運用でしたが、機械によってPの意味が変わる（スプレンダーはパルス幅）ため、チェック方式に変えています。<br>
+	② <b>機種の名前</b>を熱傷報告と同じ呼び方に変えました（メディオ（ネクストプロ）／メディオ（モノリス）／ジェントル（アレキ）／ジェントル（ヤグ））。<br>
+	③ <b>総ショット数</b>は、選んだ機器によって「ハンドピース」「本体」の別が変わり、数えられない機種（スプレンダー・ソプラノ）では入力欄が出ません。全身で機器を切り替えてご確認ください。<br>
+	④ 「使用機器」を選ぶと、下の照射記録に初期値が入ります。<b>全身で「スプレンダー①」を選ぶと表の形が変わります</b>（Jが「アレキ」「ヤグ」の2列、Pが「パルス幅」）。<br>
+	⑤ スプレンダーのときは、中分類（体幹おもて等）ごとに<b>参照回数</b>を選べます。乳輪・V・I・Oは部位ごと、うなじは体幹うらに連動します。<br>
+	⑥ iPadでの<b>横幅・文字の大きさ・＋−の押しやすさ</b>をご確認ください。
 </div>
 
 <div class="colm-main-navsty2">
@@ -108,23 +111,25 @@
 				<div class="form">
 					<div class="transfer-ttl">ショット数</div>
 					<table class="tbl-counter tbl-shot no-flex">
-						<!-- 列幅を固定する表なので、列の定義を明示して「ハンドピース総ショット数」が
-						     当日開始時・当日終了時の2列にかかるようにする -->
+						<!-- 列幅を固定する表なので、列の定義を明示して「総ショット数」が
+						     種別・当日開始時・当日終了時の3列にかかるようにする -->
 						<colgroup>
-							<col style="width:12%">
-							<col style="width:22%">
-							<col style="width:18%">
+							<col style="width:11%">
 							<col style="width:24%">
-							<col style="width:24%">
+							<col style="width:15%">
+							<col style="width:16%">
+							<col style="width:17%">
+							<col style="width:17%">
 						</colgroup>
 						<thead>
 							<tr>
 								<th rowspan="2">部位</th>
 								<th rowspan="2">使用機器</th>
 								<th rowspan="2">ショット数</th>
-								<th colspan="2">ハンドピース総ショット数</th>
+								<th colspan="3">総ショット数</th>
 							</tr>
 							<tr>
+								<th>種別</th>
 								<th>当日開始時</th>
 								<th>当日終了時</th>
 							</tr>
@@ -136,15 +141,16 @@
 									<span class="hr-select">
 										<select id="deviceWholeBody">
 											<option value="">選択してください</option>
-											<option value="MEDIOSTAR">メディオスター①</option>
-											<option value="MONOLITH">モノリス①</option>
+											<option value="MEDIOSTAR">メディオ（ネクストプロ）①</option>
+											<option value="MONOLITH">メディオ（モノリス）①</option>
 											<option value="SPLENDOR">スプレンダー①</option>
 										</select>
 									</span>
 								</td>
 								<td><input type="number" min="0"></td>
-								<td><input type="number" min="0"></td>
-								<td><input type="number" min="0"></td>
+								<td class="shot-unit" id="unit_WHOLE">―</td>
+								<td id="tstart_WHOLE">―</td>
+								<td id="tend_WHOLE">―</td>
 							</tr>
 							<tr>
 								<td>顔</td>
@@ -152,14 +158,15 @@
 									<span class="hr-select">
 										<select id="deviceFace">
 											<option value="">選択してください</option>
-											<option value="ALEX">アレキ①</option>
+											<option value="ALEX">ジェントル（アレキ）①</option>
 											<option value="HYBRID">ハイブリッド①</option>
 										</select>
 									</span>
 								</td>
 								<td><input type="number" min="0"></td>
-								<td><input type="number" min="0"></td>
-								<td><input type="number" min="0"></td>
+								<td class="shot-unit" id="unit_FACE">―</td>
+								<td id="tstart_FACE">―</td>
+								<td id="tend_FACE">―</td>
 							</tr>
 						</tbody>
 					</table>
@@ -240,7 +247,8 @@ function trimZero(v) {
 }
 
 function deviceLabel(code) {
-	return { MEDIOSTAR:'メディオスター①', SPLENDOR:'スプレンダー①', ALEX:'アレキ①', HYBRID:'ハイブリッド①' }[code] || '';
+	return { MEDIOSTAR:'メディオ（ネクストプロ）①', MONOLITH:'メディオ（モノリス）①', SPLENDOR:'スプレンダー①',
+		ALEX:'ジェントル（アレキ）①', HYBRID:'ハイブリッド①' }[code] || '';
 }
 
 function buildTable(partKey, deviceCode) {
@@ -261,7 +269,7 @@ function buildTable(partKey, deviceCode) {
 		? '<th class="counter">アレキ</th><th class="counter">ヤグ</th><th class="counter">パルス幅</th>'
 		: '<th class="counter">J</th><th class="counter">P</th>';
 	html += '<th class="aftertreatment">照射後肌状態</th>';
-	html += '<th class="skip-col">除外</th></tr></thead><tbody>';
+	html += '<th class="skip-col">未照射</th></tr></thead><tbody>';
 
 	// うなじは体幹うらに連動させるため、先に対象をまとめておく
 	var napeIds = [];
@@ -347,7 +355,7 @@ function applyPattern(select) {
 	var p = PATTERNS[parseInt(select.value, 10)];
 	if (!p) { return; }
 	String($(select).data('targets')).split(',').forEach(function (rid) {
-		// 除外にチェックした部位には値を入れない（除外したのに値が戻るのを防ぐ）
+		// 未照射にチェックした部位には値を入れない（チェックしたのに値が戻るのを防ぐ）
 		if ($('#' + rid + '_skip').is(':checked')) { return; }
 		$('#' + rid + '_j').val(trimZero(p[1]));
 		$('#' + rid + '_yag').val(trimZero(p[2]));
@@ -355,7 +363,31 @@ function applyPattern(select) {
 	});
 }
 
+// 総ショット数の呼び方。null は数えられない機種（入力欄を出さない）
+var TOTAL_SHOT_UNIT = {
+	MEDIOSTAR: 'ハンドピース', MONOLITH: 'ハンドピース',
+	HYBRID: '本体', ALEX: '本体', GENTLE: '本体',
+	SPLENDOR: null, SOPRANO: null
+};
+
+// 選んだ機器に合わせて、総ショット数の「種別」と入力欄の出し分けをする
+function updateShotRow(partKey, deviceCode) {
+	var unit = TOTAL_SHOT_UNIT[deviceCode];
+	var $unit = $('#unit_' + partKey), $start = $('#tstart_' + partKey), $end = $('#tend_' + partKey);
+	if (unit) {
+		$unit.attr('colspan', 1).removeClass('shot-none').text(unit);
+		$start.show().html('<input type="number" min="0">');
+		$end.show().html('<input type="number" min="0">');
+	} else {
+		$unit.attr('colspan', 3).addClass('shot-none')
+			.text(deviceCode ? 'この機器は総ショット数を数えられないため入力しません' : '―');
+		$start.hide();
+		$end.hide();
+	}
+}
+
 function renderPart(partKey, deviceCode) {
+	updateShotRow(partKey, deviceCode);
 	$('#area_' + partKey).html(buildTable(partKey, deviceCode));
 	if (!deviceCode) { return; }
 	if (deviceCode === 'SPLENDOR') {
@@ -396,7 +428,7 @@ $(function () {
 
 	$(document).on('change', '.js-pattern', function () { applyPattern(this); });
 
-	// 「照射しない」…その部位は入力できなくなる（グレー表示）。チェックを外せば元の値に戻る
+	// 「未照射」…その部位は入力できなくなる（グレー表示）。チェックを外せば元の値に戻る
 	$(document).on('change', '.js-skip', function () {
 		var rid = $(this).data('row');
 		var row = $(this).closest('tr');
